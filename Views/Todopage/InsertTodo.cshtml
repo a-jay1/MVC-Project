@@ -1,0 +1,27 @@
+﻿
+
+@{
+    ViewBag.Title = "InsertTodo";
+}
+
+@model List
+
+@using WebApplication6.Models
+
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="error">@ViewBag.ErrorMessage</div>
+}
+
+@using (Html.BeginForm("InsertTodo", "Todopage", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(model => model.lists)
+        @Html.TextBoxFor(model => model.lists)
+    </div>
+    
+    <div>
+        <input type="submit" value="Insert" />
+    </div>
+}
