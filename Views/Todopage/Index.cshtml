@@ -1,8 +1,18 @@
 ﻿@{
     ViewBag.Title = "Todo List";
 }
+<div style="
+    width:100%;
+    height:75vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center">
 
-<h2>Todo List</h2>
 
-<a href="@Url.Action("ViewTodo", "Todopage")" class="btn btn-primary">View</a>
-<a href="@Url.Action("InsertTodo", "Todopage")" class="btn btn-primary">Insert</a>
+    <h2>Todo List</h2>
+
+    <a href="@Url.Action("ViewTodo", "Todopage")" class="btn btn-primary">View</a>
+    <a href="@Url.Action("InsertTodo", "Todopage")" class="btn btn-primary">Insert</a>
+
+</div>

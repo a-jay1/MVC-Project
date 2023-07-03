@@ -1,5 +1,4 @@
 ﻿
-
 @{
     ViewBag.Title = "InsertTodo";
 }
@@ -8,20 +7,29 @@
 
 @using WebApplication6.Models
 
+<div style="
+    width:100%;
+    height:75vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center">
 
-@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-{
-    <div class="error">@ViewBag.ErrorMessage</div>
-}
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="error">@ViewBag.ErrorMessage</div>
+    }
 
-@using (Html.BeginForm("InsertTodo", "Todopage", FormMethod.Post))
-{
-    <div>
-        @Html.LabelFor(model => model.lists)
-        @Html.TextBoxFor(model => model.lists)
-    </div>
-    
-    <div>
-        <input type="submit" value="Insert" />
-    </div>
-}
+    @using (Html.BeginForm("InsertTodo", "Todopage", FormMethod.Post))
+    {
+        <div>
+            @Html.LabelFor(model => model.lists)
+            @Html.TextBoxFor(model => model.lists)
+        </div>
+
+        <div>
+            <input type="submit" value="Insert" />
+        </div>
+    }
+
+</div>

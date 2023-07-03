@@ -2,6 +2,6 @@
 {
     public class List
     {
-        internal string lists;
+        public string lists { get; set; }
     }
 }

@@ -26,7 +26,19 @@ namespace WebApplication6.Controllers
         public ActionResult ViewTodo()
         {
             // Logic to retrieve and display the todo list
-            return View();
+            try
+            {
+                List<string> items = _credentialsValidator.getList();
+                var model = new TodoModel { Items = items };
+                return View(model);
+
+            }
+
+            catch (Exception e)
+            {
+                throw new Exception("exception" + e);
+            }
+            
         }
 
         public ActionResult InsertTodo()
@@ -39,7 +51,12 @@ namespace WebApplication6.Controllers
         public ActionResult InsertTodo(List model)
         {
             string str = model.lists;
-
+            
+            if(str == null)
+            {
+                ViewBag.ErrorMessage = "InsertValues";
+                return View();
+            }
             try
             {
                 _credentialsValidator.insert(str);
@@ -52,6 +69,26 @@ namespace WebApplication6.Controllers
             // Invalid login, display error message
             ViewBag.ErrorMessage = "Inserted";
             return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            id--;
+
+            try
+            {
+                _credentialsValidator.Delete(id);
+            }
+
+            catch (Exception e)
+            {
+                throw new Exception("exception" + e);
+            }
+            
+
+            return RedirectToAction("ViewTodo");
 
         }
     }
