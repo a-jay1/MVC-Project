@@ -8,7 +8,7 @@ namespace WebApplication6.Models
     {
         private readonly string _connectionString;
 
-        private static string _email = "asd@gmail.com";
+        private static string _email = "";
 
         private static string _date = "";
 
@@ -20,6 +20,10 @@ namespace WebApplication6.Models
         public void Set(string date)
         {
             _date = date;
+        }
+        public string Get()
+        {
+            return _date;
         }
 
         public bool IsValidCredentials(string email, string password)
@@ -113,40 +117,6 @@ namespace WebApplication6.Models
             }
         }
 
-        /*public List<string> getList()
-        {
-            List<string> list = new List<string>();
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                try
-                {
-                    connection.Open();
-
-                    string query = "SELECT list FROM dolist WHERE Email = @Email and _status = 0 and _date = @Date ORDER BY _start , _end , id" ;
-                    //string query = "Insert signup(Email , Name , Password) VALUES (@Email , 'hai' , @Password) ";
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@Email", _email);
-                    command.Parameters.AddWithValue("@Date", _date);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        string task = reader.GetString(0);
-
-                        // Create a tuple and add it to the todoList
-                        list.Add(task);
-                    }
-
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("An error occurred.", ex);
-                }
-
-                return list;
-            }
-        }*/
         public List<List<string>> getList()
         {
             List<List<string>> list = new List<List<string>>();

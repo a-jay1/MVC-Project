@@ -20,7 +20,12 @@ namespace WebApplication6.Controllers
 
         public ActionResult Index()
         {
-            // Logic to retrieve and display the todo list
+            string errorMessage = TempData["ErrorMessage"] as string;
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
             return View();
         }
         public ActionResult ViewTodo()
@@ -39,28 +44,26 @@ namespace WebApplication6.Controllers
             }
             
         }
-
         public ActionResult InsertTodo()
         {
-            // Logic to insert a new item in the todo list
+            ViewBag.ErrorMessage = _credentialsValidator.Get();
             return View();
         }
 
         [HttpPost]
         public ActionResult InsertTodo(List model)
         {
-            if (model.lists == null && model.startTime == null && model.endTime == null ))
+            if (model.lists == null && model.startTime == null && model.endTime == null )
             {
                 ViewBag.ErrorMessage = "InsertValues";
                 return View();
             }
 
-            if (TimeSpan.Parse(model.startTime) <= TimeSpan.Parse(model.endTime))
+            if (TimeSpan.Parse(model.startTime) >= TimeSpan.Parse(model.endTime))
             {
-                ViewBag.ErrorMessage = "It's not Valid time";
+                ViewBag.ErrorMessage = "Enter Valid Time";
                 return View();
             }
-
 
             if (!(_credentialsValidator.insertValid(model)))
             {
@@ -78,7 +81,7 @@ namespace WebApplication6.Controllers
             }
             // Invalid login, display error message
             ViewBag.ErrorMessage = "Inserted";
-            return View();
+            return Index();
 
         }
         [HttpPost]
@@ -135,9 +138,13 @@ namespace WebApplication6.Controllers
 
         }
 
-
         public ActionResult StoreDate(Datestring model)
         {
+            if(model.DateString == null)
+            {
+                TempData["ErrorMessage"] = "The DateString is null.";
+                return RedirectToAction("Index");
+            }
             _credentialsValidator.Set(model.DateString);
 
             return RedirectToAction("InsertTodo"); // Redirect to another action or view
@@ -146,6 +153,11 @@ namespace WebApplication6.Controllers
 
         public ActionResult StoreView(Datestring model)
         {
+            if (model.DateString == null)
+            {
+                TempData["ErrorMessage"] = "The DateString is null.";
+                return RedirectToAction("Index");
+            }
             _credentialsValidator.Set(model.DateString);
 
             return RedirectToAction("ViewToDo"); // Redirect to another action or view

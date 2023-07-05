@@ -15,7 +15,6 @@
     justify-content:center;
     align-items:center">
 
-
     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
     {
         <div class="error">@ViewBag.ErrorMessage</div>
@@ -40,6 +39,12 @@
 
         <div>
             <input type="submit" value="Insert" />
+        </div>
+    }
+    @using (Html.BeginForm("InsertTodo", "Todopage", FormMethod.Post))
+    {
+        <div>
+            <input type="button" value="Back" onclick="window.location.href='@Url.Action("Index", "Todopage")'" />
         </div>
     }
 

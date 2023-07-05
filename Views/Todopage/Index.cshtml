@@ -3,6 +3,10 @@
 }
 
 @using WebApplication6.Models
+@{
+    DateTime today = DateTime.Now;
+    string todayDateString = today.ToString("yyyy-MM-dd");
+}
 
 
 <div style="
@@ -14,14 +18,21 @@
     align-items:center">
 
 
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="error">@ViewBag.ErrorMessage</div>
+    }
+
     <h2>Todo List</h2>
 
     @model Datestring
 
+
     @using (Html.BeginForm("StoreDate", "Todopage", FormMethod.Post))
     {
         <div>
-            @Html.TextBoxFor(model => model.DateString, new { type = "date" })
+            @Html.TextBoxFor(model => model.DateString, new { type = "date", min = todayDateString })
+
         </div>
         <div>
             <input type="submit" value="InsertTask" />
@@ -37,8 +48,5 @@
             <input type="submit" value="ViewTask" />
         </div>
     }
-
-        @*<a href="@Url.Action("ViewTodo", "Todopage")" class="btn btn-primary"> View </a>
-        <a href="@Url.Action("InsertTodo", "Todopage")" class="btn btn-primary">Insert</a>*@
 
 </div>
