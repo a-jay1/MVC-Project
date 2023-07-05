@@ -1,3 +1,4 @@
+C:\Users\Admin\source\repos\WebApplication6\obj\Debug\WebApplication6.csproj.CoreCompileInputs.cache
 C:\Users\Admin\source\repos\WebApplication6\bin\WebApplication6.dll.config
 C:\Users\Admin\source\repos\WebApplication6\bin\WebApplication6.dll
 C:\Users\Admin\source\repos\WebApplication6\bin\WebApplication6.pdb
@@ -117,7 +118,6 @@ C:\Users\Admin\source\repos\WebApplication6\bin\System.Web.WebPages.Razor.xml
 C:\Users\Admin\source\repos\WebApplication6\bin\Newtonsoft.Json.xml
 C:\Users\Admin\source\repos\WebApplication6\bin\Antlr3.Runtime.pdb
 C:\Users\Admin\source\repos\WebApplication6\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Admin\source\repos\WebApplication6\obj\Debug\WebApplication6.csproj.CoreCompileInputs.cache
 C:\Users\Admin\source\repos\WebApplication6\obj\Debug\WebApplication6.csproj.CopyComplete
 C:\Users\Admin\source\repos\WebApplication6\obj\Debug\WebApplication6.dll
 C:\Users\Admin\source\repos\WebApplication6\obj\Debug\WebApplication6.pdb

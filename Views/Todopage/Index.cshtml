@@ -1,6 +1,10 @@
 ﻿@{
     ViewBag.Title = "Todo List";
 }
+
+@using WebApplication6.Models
+
+
 <div style="
     width:100%;
     height:75vh;
@@ -12,7 +16,29 @@
 
     <h2>Todo List</h2>
 
-    <a href="@Url.Action("ViewTodo", "Todopage")" class="btn btn-primary">View</a>
-    <a href="@Url.Action("InsertTodo", "Todopage")" class="btn btn-primary">Insert</a>
+    @model Datestring
+
+    @using (Html.BeginForm("StoreDate", "Todopage", FormMethod.Post))
+    {
+        <div>
+            @Html.TextBoxFor(model => model.DateString, new { type = "date" })
+        </div>
+        <div>
+            <input type="submit" value="InsertTask" />
+        </div>
+    }
+    <br /><br /><br /><br />
+    @using (Html.BeginForm("StoreView", "Todopage", FormMethod.Post))
+    {
+        <div>
+            @Html.TextBoxFor(model => model.DateString, new { type = "date" })
+        </div>
+        <div>
+            <input type="submit" value="ViewTask" />
+        </div>
+    }
+
+        @*<a href="@Url.Action("ViewTodo", "Todopage")" class="btn btn-primary"> View </a>
+        <a href="@Url.Action("InsertTodo", "Todopage")" class="btn btn-primary">Insert</a>*@
 
 </div>

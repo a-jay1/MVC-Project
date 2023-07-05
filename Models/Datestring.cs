@@ -5,9 +5,8 @@ using System.Web;
 
 namespace WebApplication6.Models
 {
-    public class TodoModel
+    public class Datestring
     {
-        public List<List<string>> Items { get; set; }
+        public string DateString { get; set; }
     }
-
 }

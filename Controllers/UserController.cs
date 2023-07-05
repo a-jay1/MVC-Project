@@ -14,24 +14,6 @@ namespace WebApplication6.Controllers
         {
             return View();
         }
-        /*
-        [HttpPost]
-        public ActionResult Login(User user)
-        {
-            // Perform authentication logic using the user model
-            if (user.Username == "admin" && user.Password == "password")
-            {
-                // Authentication successful, redirect to home page
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                // Authentication failed, display an error message
-                ViewBag.ErrorMessage = "Invalid username or password.";
-                return View();
-            }
-        }
-        */
 
         private readonly CredentialsValidator _credentialsValidator;
 

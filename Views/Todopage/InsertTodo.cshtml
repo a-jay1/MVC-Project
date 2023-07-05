@@ -15,6 +15,7 @@
     justify-content:center;
     align-items:center">
 
+
     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
     {
         <div class="error">@ViewBag.ErrorMessage</div>
@@ -25,6 +26,16 @@
         <div>
             @Html.LabelFor(model => model.lists)
             @Html.TextBoxFor(model => model.lists)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.startTime)
+            @Html.TextBoxFor(model => model.startTime)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.endTime)
+            @Html.TextBoxFor(model => model.endTime)
         </div>
 
         <div>

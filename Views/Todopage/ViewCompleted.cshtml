@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "ViewCompleted";
+}
+@using WebApplication6.Models
+
+@model TodoModel
+
+<style>
+    border, th, td {
+        border-style: solid;
+        border-color: #96D4D4;
+    }
+</style>
+
+<div style="
+    width:100%;
+    height:75vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center">
+
+    <h2>Task Completed</h2>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="error">@ViewBag.ErrorMessage</div>
+    }
+
+    @if (Model != null && Model.Items != null)
+    {
+        <div>
+            <table class="todo">
+                <tr>
+                    <th>_Task No_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_Task Name_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_Start Time_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_End Time_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                </tr>
+                @{
+                    int i = 0;
+
+                    foreach (var item in Model.Items)
+                    {
+                        i++;
+                        <tr>
+                            <td>@i</td>
+                            <td>@item[0]</td> <!-- Task Name -->
+                            <td>@item[1]</td> <!-- Start Time -->
+                            <td>@item[2]</td> <!-- End Time -->
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    }
+
+
+</div>

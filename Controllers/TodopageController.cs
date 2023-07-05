@@ -28,10 +28,9 @@ namespace WebApplication6.Controllers
             // Logic to retrieve and display the todo list
             try
             {
-                List<string> items = _credentialsValidator.getList();
+                List<List<string>> items = _credentialsValidator.getList();
                 var model = new TodoModel { Items = items };
                 return View(model);
-
             }
 
             catch (Exception e)
@@ -50,16 +49,27 @@ namespace WebApplication6.Controllers
         [HttpPost]
         public ActionResult InsertTodo(List model)
         {
-            string str = model.lists;
-            
-            if(str == null)
+            if (model.lists == null && model.startTime == null && model.endTime == null ))
             {
                 ViewBag.ErrorMessage = "InsertValues";
                 return View();
             }
+
+            if (TimeSpan.Parse(model.startTime) <= TimeSpan.Parse(model.endTime))
+            {
+                ViewBag.ErrorMessage = "It's not Valid time";
+                return View();
+            }
+
+
+            if (!(_credentialsValidator.insertValid(model)))
+            {
+                ViewBag.ErrorMessage = "Task already sheduled between this time frame !";
+                return View();
+            }
             try
             {
-                _credentialsValidator.insert(str);
+                _credentialsValidator.insert(model);
             }
 
             catch (Exception e)
@@ -71,11 +81,9 @@ namespace WebApplication6.Controllers
             return View();
 
         }
-
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            id--;
 
             try
             {
@@ -86,10 +94,62 @@ namespace WebApplication6.Controllers
             {
                 throw new Exception("exception" + e);
             }
-            
+           
+            return RedirectToAction("ViewTodo");
+
+        }
+
+        [HttpPost]
+        public ActionResult Completed(int id)
+        {
+            try
+            {
+                _credentialsValidator.Completed(id);
+            }
+
+            catch (Exception e)
+            {
+                throw new Exception("exception" + e);
+            }
+
 
             return RedirectToAction("ViewTodo");
 
         }
+
+        public ActionResult ViewCompleted()
+        {
+            // Logic to retrieve and display the todo list
+            try
+            {
+                List<List<string>> items = _credentialsValidator.ViewCompleted();
+                var model = new TodoModel { Items = items };
+                return View(model);
+
+            }
+
+            catch (Exception e)
+            {
+                throw new Exception("exception" + e);
+            }
+
+        }
+
+
+        public ActionResult StoreDate(Datestring model)
+        {
+            _credentialsValidator.Set(model.DateString);
+
+            return RedirectToAction("InsertTodo"); // Redirect to another action or view
+        }
+
+
+        public ActionResult StoreView(Datestring model)
+        {
+            _credentialsValidator.Set(model.DateString);
+
+            return RedirectToAction("ViewToDo"); // Redirect to another action or view
+        }
+
     }
 }
