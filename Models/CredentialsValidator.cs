@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Web.Mvc;
 
 namespace WebApplication6.Models
 {
@@ -237,7 +238,7 @@ namespace WebApplication6.Models
         {
             string query = "";
 
-            if (id-- == 1)
+            if (id-- == 1 )
             {
                 query = "UPDATE dolist SET _status = 1 WHERE id = (SELECT TOP 1 id FROM dolist WHERE email = @email and _status = 0 and _date = @Date ORDER BY _start , _end , id)";
             }
@@ -259,7 +260,7 @@ namespace WebApplication6.Models
 
                     command.Parameters.AddWithValue("@Email", _email);
                     command.Parameters.AddWithValue("@Date", _date);
-                    if (id != 0)
+                    if (id != 0 )
                     {
                         command.Parameters.AddWithValue("@n", id);
                     }
@@ -272,5 +273,133 @@ namespace WebApplication6.Models
 
             }
         }
-    }
+
+        public int difference(int id)
+        {
+            string query = "";
+
+            if (id-- == 1)
+            {
+                query = "SELECT DATEDIFF(MINUTE, _start, _end) FROM dolist WHERE id = (SELECT TOP 1 id FROM dolist WHERE email = @email and _status = 0 and _date = @Date ORDER BY _start , _end , id)";
+            }
+            else
+            {
+                query = "SELECT DATEDIFF(MINUTE, _start, _end) FROM dolist WHERE id = (SELECT id FROM dolist WHERE email = @email and _status = 0 and _date = @Date ORDER BY _start , _end , id OFFSET @n ROWS FETCH NEXT 1 ROWS ONLY)";
+            }
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+
+                try
+                {
+                    connection.Open();
+
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@Email", _email);
+                    command.Parameters.AddWithValue("@Date", _date);
+                    if (id != 0)
+                    {
+                        command.Parameters.AddWithValue("@n", id);
+                    }
+                    //command.ExecuteNonQuery();
+                    return (int)command.ExecuteScalar();
+                }
+                catch 
+                {
+                    return 720;
+                }
+
+            }
+        }
+
+        public List<string> getListOfEndTime(string endTime)
+        {
+            List<String> list = new List<string>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = "SELECT _end FROM dolist WHERE Email = @Email and _status = 0 and _date = @Date and _end >= @end ORDER BY _start , _end , id";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@Email", _email);
+                    command.Parameters.AddWithValue("@Date", _date);
+                    command.Parameters.AddWithValue("@end", TimeSpan.Parse(endTime));
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        string endTime1 = reader.GetTimeSpan(0).ToString(@"hh\:mm\:ss");
+
+                        list.Add(endTime1);
+                    }
+
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("An error occurred.", ex);
+                }
+
+                return list;
+            }
+        }
+
+        public int RemainingTime(int time , TodoModel model)
+        {
+            return (int)((time * 100) / model.percentage - time);
+        }
+        public int Reschedule(int id,string task , string endTime, TodoModel model)
+        {
+            int diff = 0;
+            if(model.percentage == 0)
+            {
+                diff = difference(id);
+            }
+            else
+            {
+                diff = RemainingTime(difference(id), model);
+            }
+            if (model.percentage >= 100)
+            {
+                Completed(id);
+                return 2;
+            }
+            List<string> list = new List<String>();
+            list = getListOfEndTime(endTime);
+            int flag = 0;
+            foreach(string str in list)
+            {
+                string start = str;
+                string end = (TimeSpan.Parse(start).Add(TimeSpan.FromMinutes(diff))).ToString();
+                List l = new List();
+                if(task.IndexOf("_(Rescheduled)_") == -1)
+                {
+                    task += "_(Rescheduled)_";
+                }
+                l.lists = task;
+                l.startTime = start;
+                l.endTime = end;
+                if(insertValid(l))
+                {
+                    try
+                    {
+                        Completed(id);
+                        insert(l);
+                        flag = 1;
+                        break;
+                    }
+                    catch
+                    {
+                        flag = 0;
+                        break;
+                    }
+                }
+            }
+            return flag;
+        }
+    }  
 }

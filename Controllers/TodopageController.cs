@@ -31,6 +31,7 @@ namespace WebApplication6.Controllers
         public ActionResult ViewTodo()
         {
             // Logic to retrieve and display the todo list
+            ViewBag.ErrorMessage = TempData["ErrorMessage"] as string;
             try
             {
                 List<List<string>> items = _credentialsValidator.getList();
@@ -56,7 +57,7 @@ namespace WebApplication6.Controllers
             if (model.lists == null && model.startTime == null && model.endTime == null )
             {
                 ViewBag.ErrorMessage = "InsertValues";
-                return View();
+                return View(); 
             }
 
             if (TimeSpan.Parse(model.startTime) >= TimeSpan.Parse(model.endTime))
@@ -80,8 +81,8 @@ namespace WebApplication6.Controllers
                 throw new Exception("exception" + e);
             }
             // Invalid login, display error message
-            ViewBag.ErrorMessage = "Inserted";
-            return Index();
+            TempData["ErrorMessage"] = "Inserted";
+            return RedirectToAction("Index");
 
         }
         [HttpPost]
@@ -103,7 +104,7 @@ namespace WebApplication6.Controllers
         }
 
         [HttpPost]
-        public ActionResult Completed(int id)
+        public ActionResult Completed(int id )
         {
             try
             {
@@ -163,5 +164,26 @@ namespace WebApplication6.Controllers
             return RedirectToAction("ViewToDo"); // Redirect to another action or view
         }
 
+
+        [HttpPost]
+        public ActionResult Reschedule(int id ,string task , string endTime,TodoModel model)
+        {
+
+            int i = _credentialsValidator.Reschedule(id,task,endTime,model);
+            if(i == 1)
+            {
+                TempData["ErrorMessage"] = "rescheduled";
+            }
+            else if(i == 2)
+            {
+                TempData["ErrorMessage"] = "Task completed ! cannot be rescheduled";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No time for Rescheduling";
+            }
+            return RedirectToAction("ViewTodo");
+
+        }
     }
 }

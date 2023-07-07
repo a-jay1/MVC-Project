@@ -48,5 +48,12 @@
             <input type="submit" value="ViewTask" />
         </div>
     }
+    <br /><br /><br />
+    @using (Html.BeginForm("Index", "User", FormMethod.Post))
+    {
+        <div>
+            <input type="button" value="Back" onclick="window.location.href='@Url.Action("Login", "User")'" />
+        </div>
+    }
 
 </div>

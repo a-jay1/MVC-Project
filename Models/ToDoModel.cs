@@ -8,6 +8,8 @@ namespace WebApplication6.Models
     public class TodoModel
     {
         public List<List<string>> Items { get; set; }
+
+        public int  percentage { get; set; }
     }
 
 }

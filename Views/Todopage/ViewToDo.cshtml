@@ -35,49 +35,69 @@
 
     @if (Model != null && Model.Items != null)
     {
-<div>
-    <table class="todo">
-        <tr>
-            <th>_Task No_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
-            <th>_Task Name_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
-            <th>_Start Time_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
-            <th>_End Time_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
-            <th>_Delete_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
-            <th>_Complete_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
-        </tr>
-        @{
-            int i = 0;
-
-            foreach (var item in Model.Items)
-            {
-                i++;
+        <div>
+            <table class="todo">
                 <tr>
-                    <td>@i</td>
-                    <td>@item[0]</td> <!-- Task Name -->
-                    <td>@item[1]</td> <!-- Start Time -->
-                    <td>@item[2]</td> <!-- End Time -->
-
-                    <td>
-                        @using (Html.BeginForm("Delete", "Todopage", new { id = i }, FormMethod.Post))
-                        {
-                            @Html.Hidden("id", i)
-                            <input type="submit" value="delete">
-                        }
-                    </td>
-
-                    <td>
-                        @using (Html.BeginForm("Completed", "Todopage", new { id = i }, FormMethod.Post))
-                        {
-                            @Html.Hidden("id", i)
-                            <input type="submit" value="Completed">
-                        }
-                    </td>
+                    <th>_Task No_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_Task Name_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_Start Time_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_End Time_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_Delete_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_Complete_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th>_WorkCompletion (%)_ &nbsp;&nbsp;&nbsp;&nbsp;</th>
                 </tr>
-            }
-        }
-    </table>
+                @{
+                    int i = 0;
 
-</div>
+                    foreach (var item in Model.Items)
+                    {
+                        i++;
+                        <tr>
+                            <td>@i</td>
+                            <td>@item[0]</td> <!-- Task Name -->
+                            <td>@item[1]</td> <!-- Start Time -->
+                            <td>@item[2]</td> <!-- End Time -->
+
+                            <td>
+                                @using (Html.BeginForm("Delete", "Todopage", new { id = i }, FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", i)
+                                    <input type="submit" value="delete">
+                                }
+                            </td>
+
+                            <td>
+                                @using (Html.BeginForm("Completed", "Todopage", new { id = i }, FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", i)
+                                    <input type="submit" value="Completed">
+                                }
+                            </td>
+
+                            <td>
+                                @using (Html.BeginForm("Reschedule", "Todopage", new { id = i }, FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", i)
+                                    @Html.Hidden("task", item[0].ToString())
+                                    @Html.Hidden("endTime", item[2].ToString())
+                                    <input type="text" name="percentage" style="width: 25%" placeholder="%" value="@Model.percentage">
+                                    <input type="submit" value="Reschedule">
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+
+        </div>
+    }
+    <br /><br /><br />
+    @using (Html.BeginForm("ViewTodo", "Todopage", FormMethod.Post))
+    {
+        <div>
+            <input type="button" value="Back" onclick="window.location.href='@Url.Action("Index", "Todopage")'" />
+        </div>
     }
 
 

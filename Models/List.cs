@@ -12,5 +12,6 @@ namespace WebApplication6.Models
         public string startTime { get; set; }
 
         public string endTime { get; set; }
+
     }
 }
